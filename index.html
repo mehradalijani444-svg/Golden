@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
-<title>GOLDEN NET | گلدن نت v11</title>
+<title>GOLDEN NET | گلدن نت v12</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;font-family:Vazirmatn,Tahoma,sans-serif}
 body{background:#060604;color:#f7f1d6;min-height:100vh;padding-bottom:96px;background-image:radial-gradient(circle at 20% 0%,rgba(212,175,55,.2),transparent 45%)}
@@ -52,18 +52,30 @@ h3{color:#ffdf6b;font-size:16px}h4{color:#ffe9a3;font-size:14px}.dot{width:10px;
 .proto-btn.active{background:linear-gradient(135deg,#ffec9e,#8a6d1b);color:#111;border-color:#ffd700}
 .wg-guide{background:#0a1a0f;border:1px solid #22c55e;border-radius:12px;padding:10px;margin-top:8px;font-size:12px;line-height:2;color:#d1fae5}
 .proto-tag{font-size:11px;padding:2px 8px;border-radius:20px;background:#1e1b08;border:1px solid #d4af37;color:#ffdf6b}
+#aiFab{position:fixed;bottom:78px;left:12px;width:58px;height:58px;border-radius:50%;background:linear-gradient(135deg,#ffec9e,#d4af37 45%,#8a6d1b);border:2px solid #fff3b0;font-size:26px;z-index:50;cursor:pointer;box-shadow:0 4px 20px rgba(212,175,55,.5)}
+#aiModal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:60;padding:14px}
+.ai-box{max-width:520px;margin:20px auto;background:#0e0d09;border:1px solid #d4af37;border-radius:18px;overflow:hidden;display:flex;flex-direction:column;height:78vh}
+.ai-head{background:linear-gradient(135deg,#ffec9e,#8a6d1b);color:#111;padding:12px;font-weight:900;display:flex;justify-content:space-between;align-items:center}
+.ai-msgs{flex:1;overflow:auto;padding:10px;display:flex;flex-direction:column;gap:8px}
+.msg-ai{align-self:flex-start;background:#1c1a12;border:1px solid rgba(212,175,55,.4);color:#f7f1d6;padding:10px;border-radius:12px 12px 12px 2px;font-size:13px;line-height:2;max-width:90%;white-space:pre-wrap}
+.msg-user{align-self:flex-end;background:#d4af37;color:#111;padding:8px 12px;border-radius:12px 12px 2px 12px;font-size:13px;max-width:90%;font-weight:700}
+.ai-chips{display:flex;gap:6px;overflow:auto;padding:8px;border-top:1px solid rgba(212,175,55,.3)}
+.ai-chips button{white-space:nowrap;background:#222;border:1px solid #d4af37;color:#ffe9a3;border-radius:20px;padding:6px 12px;font-size:12px;cursor:pointer}
+.ai-input{display:flex;gap:6px;padding:10px;border-top:1px solid rgba(212,175,55,.3)}
+.ai-input input{flex:1;margin:0}
+.ai-input button{width:auto;padding:11px 16px;border:none;border-radius:10px;background:linear-gradient(135deg,#ffec9e,#8a6d1b);font-weight:900;cursor:pointer}
 </style>
 </head>
 <body>
 <div class="header">
 <div class="gold-text">GOLDEN NET 👑 گلدن نت</div>
-<div class="sub">نسخه v11 بلک‌گلد — VLESS + وایرگارد اختصاصی</div>
+<div class="sub">نسخه v12 بلک‌گلد — VLESS + وایرگارد + دستیار هوشمند</div>
 <div id="licenseBadge"></div>
 <div id="cloudBadge" class="small"></div>
 </div>
 <div class="container">
 <div id="sec-home" class="section active">
-<div class="card glow"><h3>✨ پیشنهاد طلایی</h3><p class="small">دی‌انس VIP + VPN حجمی VLESS و وایرگارد با تحویل آنی بعد از تایید رسید.</p><div class="row"><button class="btn btn-gold" style="flex:1" onclick="showSec('sec-vpn')">🚀 خرید VPN</button><button class="btn btn-outline" style="flex:1" onclick="showSec('sec-dns')">🌐 دی‌انس</button></div></div>
+<div class="card glow"><h3>✨ پیشنهاد طلایی</h3><p class="small">دی‌انس VIP + VPN حجمی VLESS و وایرگارد با تحویل آنی بعد از تایید رسید.</p><div class="row"><button class="btn btn-gold" style="flex:1" onclick="showSec('sec-vpn')">🚀 خرید VPN</button><button class="btn btn-outline" style="flex:1" onclick="showSec('sec-dns')">🌐 دی‌انس</button></div><button class="btn btn-dark" onclick="aiOpen()">🤖 سوال داری؟ از گلدی بپرس</button></div>
 <div class="card"><h3>🎫 ورود با کد لایسنس</h3><input id="licenseInput" placeholder="GOLD-XXXX-XXXX" style="direction:ltr;text-align:center"><button class="btn btn-gold" onclick="activateLicense()">فعال‌سازی</button><div id="licenseInfo" class="small"></div></div>
 </div>
 <div id="sec-dns" class="section"><div id="dnsList"></div></div>
@@ -127,6 +139,15 @@ h3{color:#ffdf6b;font-size:16px}h4{color:#ffe9a3;font-size:14px}.dot{width:10px;
 <button class="copybtn" onclick="downloadModal()">دانلود</button>
 <button class="copybtn" onclick="openModalNew()">بازکردن در تب جدید</button>
 <button class="copybtn" onclick="closeModal()">بستن</button>
+</div>
+</div>
+<button id="aiFab" onclick="aiOpen()">🤖</button>
+<div id="aiModal">
+<div class="ai-box">
+<div class="ai-head"><span>🤖 گلدی | دستیار گلدن نت</span><button class="copybtn" style="background:#111;color:#ffe9a3" onclick="aiClose()">بستن ✕</button></div>
+<div class="ai-msgs" id="aiMsgs"></div>
+<div class="ai-chips"><button onclick="aiChip('قیمت VPN چنده؟')">💰 قیمت؟</button><button onclick="aiChip('وایرگارد چطور نصب کنم؟')">🛡️ نصب وایرگارد</button><button onclick="aiChip('VLESS چطور وصل میشه؟')">🚀 اتصال VLESS</button><button onclick="aiChip('DNS چطور تنظیم کنم؟')">🌐 تنظیم DNS</button><button onclick="aiChip('پیگیری سفارش')">🔍 پیگیری</button></div>
+<div class="ai-input"><input id="aiText" placeholder="سوالت را بنویس..." onkeydown="if(event.key==='Enter')aiSend()"><button onclick="aiSend()">ارسال</button></div>
 </div>
 </div>
 <script>
@@ -208,9 +229,15 @@ async function delTicket(id){if(!confirm('حذف شود؟'))return;db.tickets=db
 async function testServer(){try{let r=await jbGet();alert('سرور وصله! سفارش‌ها: '+(r.orders?r.orders.length:0));}catch(e){alert('وصل نشد: '+e.message);}}
 function saveTG(){db.tgToken=document.getElementById('set_tgtoken').value.trim();db.tgChat=document.getElementById('set_tgchat').value.trim();saveLocal();cloudSaveAll();alert('ذخیره شد');}
 function saveSettings(){db.cardNumber=document.getElementById('set_card').value||db.cardNumber;db.cardOwner=document.getElementById('set_owner').value||db.cardOwner;let np=document.getElementById('set_pass').value;if(np)db.adminPass=np;cloudSaveAll();alert('ذخیره شد');}
+function aiOpen(){document.getElementById('aiModal').style.display='block';if(!window._aiWelcomed){window._aiWelcomed=true;aiAddMsg('سلام! من گلدی هستم 🤖\nدستیار هوشمند گلدن نت.\n\nمی‌تونم کمکت کنم:\n💰 قیمت VPN\n🛡️ نصب وایرگارد\n🚀 اتصال VLESS\n🌐 تنظیم DNS\n🔍 پیگیری سفارش\n\nسوالتو بنویس!','ai');}}
+function aiClose(){document.getElementById('aiModal').style.display='none';}
+function aiAddMsg(t,who){let box=document.getElementById('aiMsgs');let d=document.createElement('div');d.className=who==='user'?'msg-user':'msg-ai';d.innerText=t;box.appendChild(d);box.scrollTop=box.scrollHeight;}
+function aiChip(t){aiAddMsg(t,'user');setTimeout(function(){aiAddMsg(aiAnswer(t),'ai')},350);}
+function aiSend(){let inp=document.getElementById('aiText');let q=inp.value.trim();if(!q)return;inp.value='';aiAddMsg(q,'user');setTimeout(function(){aiAddMsg(aiAnswer(q),'ai')},400);}
+function aiAnswer(q){let s=q||'';function has(){for(let i=0;i<arguments.length;i++){if(s.indexOf(arguments[i])>=0)return true;}return false;}if(has('قیمت','تعرفه','گیگ','هزینه','نامحدود')){return '💰 تعرفه فعلی گلدن نت:\n• هر گیگ: '+fa(db.pricePerGb)+' تومان\n• پایه ماهانه: '+fa(db.vpnBase)+' تومان\n• نامحدود ماهانه: '+fa(db.unlimitedPrice)+' تومان\n\nفرمول: (حجم × هر گیگ + پایه) × ضریب مدت + اضافه سرور\n\nبرای خرید برو به تب VPN، سرور و حجم را انتخاب کن.';}if(has('وایرگارد','wire','Wire','وایر گارد')){return '🛡️ نصب وایرگارد در ۳ قدم:\n\n۱. اپ WireGuard را از گوگل‌پلی نصب کن\n۲. بعد از تایید سفارش، در بخش پیگیری دکمه «دانلود .conf» را بزن\n۳. در اپ + بزن → Import from file → فایل را بده → دکمه روشن را بزن\n\nاگر QR می‌خواهی به پشتیبانی تیکت بده.';}if(has('VLESS','vless','ویلس','وی لس','وی‌لس','v2ray','نکوباکس','Neko')){return '🚀 اتصال VLESS:\n\n۱. اپ v2rayNG را نصب کن\n۲. بعد از تایید سفارش، از بخش پیگیری لینک کانفیگ را کپی کن\n۳. در v2rayNG روی + بزن → Import from clipboard\n۴. سرور را انتخاب کن و دکمه اجرا را بزن';}if(has('DNS','dns','دی‌انس','دی ان اس','گیمینگ')){return '🌐 تنظیم DNS:\n\nاندروید: تنظیمات → اتصالات → Private DNS → آدرس DNS پولی را که خریدی وارد کن\n\nآیفون: برنامه DNSCloak نصب کن و آدرس را بده\n\nبدون لایسنس فقط DNS رایگان باز است. از بخش خانه کد GOLD را فعال کن.';}if(has('پیگیری','سفارش','رسید','کد پیگیری','تحویل')){return '🔍 پیگیری:\n\n۱. برو به تب پیگیری\n۲. کد عددی که بعد از خرید گرفتی (مثل 1001) را بزن\n۳. اگر تایید شده باشد، کد لایسنس و کانفیگ را همان‌جا می‌بینی\n\nاگر پیدا نشد، اینترنت را روشن کن و دوباره بزن.';}if(has('کارت','پرداخت','شماره','واریز')){return '💳 پرداخت:\nشماره کارت: '+db.cardNumber+'\nبه‌نام: '+db.cardOwner+'\n\nبعد از واریز، عکس رسید را در بخش خرید آپلود کن تا کد پیگیری بگیری.';}if(has('لایسنس','کد','فعال','GOLD')){return '🎫 لایسنس:\nکدها به شکل GOLD-XXXX-XXXX هستند.\nدر تب خانه وارد کن و فعال‌سازی را بزن.\nاگر غیرفعال شده، به پشتیبانی تیکت بده.';}if(has('تیکت','پشتیبانی','خراب','وصل نمیشه','قطع')){return '🎫 پشتیبانی:\nاز تب تیکت موضوع و متن را بنویس و ثبت کن.\nمدیر جواب می‌دهد.\nبرای مشکل وصل‌نشدن: مدل گوشی + اسم سرور + اسکرین‌شات خطا را بنویس.';}if(has('سلام','درود','هی','hello')){return 'سلام رفیق! 👋 من گلدی‌ام.\nبپرس: قیمت؟ نصب وایرگارد؟ تنظیم DNS؟';}if(has('مدیر','رمز','ادمین')){return 'بخش مدیر فقط با رمز مخصوص باز می‌شود. اگر مشتری هستی نیازی به آن نداری.';}return '🤖 گلدی:\nمتوجه نشدم دقیق چی می‌خوای.\nاین‌ها را امتحان کن:\n• قیمت VPN چنده؟\n• وایرگارد چطور نصب کنم؟\n• DNS چطور تنظیم کنم؟\n• پیگیری سفارش';}
 window.addEventListener('online',function(){updateCloudBadge();syncToCloud();});
 window.addEventListener('offline',function(){updateCloudBadge();});
 (async function(){updateCloudBadge();await cloudLoadConfig();renderDNS();renderVPNServers();calcVPN();renderBuy();updateBadge();renderMyTickets();updateCloudBadge();})();
 </script>
 </body>
-</html>
+  </html>
